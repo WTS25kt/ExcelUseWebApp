@@ -26,7 +26,7 @@ async function updateSheet() {
       range: range,
       valueInputOption: 'RAW',
       requestBody: {
-        values: [['新しいデータ']],  // 更新するデータ　固定値入力
+        values: [['14:30']],  // 更新するデータ　固定値入力
       },
     });
     console.log('セルが更新されました:', response.data);
