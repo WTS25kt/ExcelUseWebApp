@@ -15,7 +15,7 @@ oAuth2Client.setCredentials({
 
 // スプレッドシートIDと範囲を設定
 const spreadsheetId = process.env.SPREADSHEET_ID;
-const range = 'リハビリ（7月）!F20';  // カタカナのシート名を使用
+const range = 'リハビリ（7月）!F20';
 
 // スプレッドシートにデータを書き込む関数
 async function updateSheet() {
@@ -26,7 +26,7 @@ async function updateSheet() {
       range: range,
       valueInputOption: 'RAW',
       requestBody: {
-        values: [['新しいデータ']],  // 更新するデータ
+        values: [['新しいデータ']],  // 更新するデータ　固定値入力
       },
     });
     console.log('セルが更新されました:', response.data);
