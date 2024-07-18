@@ -23,7 +23,7 @@ async function updateSheet() {
     const response = await sheets.spreadsheets.values.update({
       auth: oAuth2Client,
       spreadsheetId: spreadsheetId,
-      range: encodeURIComponent(range), // 範囲をエンコード
+      range: range, // 範囲をエンコード
       valueInputOption: 'RAW',
       requestBody: {
         values: [['test']],
