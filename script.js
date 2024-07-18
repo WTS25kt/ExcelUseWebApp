@@ -1,19 +1,20 @@
+require('dotenv').config();
 const { google } = require('googleapis');
 const sheets = google.sheets('v4');
 const { OAuth2 } = google.auth;
 
 // 認証情報を設定
 const oAuth2Client = new OAuth2(
-  'YOUR_CLIENT_ID',     // クライアントID
-  'YOUR_CLIENT_SECRET', // クライアントシークレット
+  process.env.CLIENT_ID,     // クライアントID
+  process.env.CLIENT_SECRET, // クライアントシークレット
 );
 
 oAuth2Client.setCredentials({
-  refresh_token: 'YOUR_REFRESH_TOKEN',
+  refresh_token: process.env.REFRESH_TOKEN,
 });
 
 // スプレッドシートIDと範囲を設定
-const spreadsheetId = 'YOUR_SPREADSHEET_ID';
+const spreadsheetId = process.env.SPREADSHEET_ID;
 const range = 'Sheet1!A1';
 
 // スプレッドシートにデータを書き込む関数
