@@ -15,7 +15,7 @@ oAuth2Client.setCredentials({
 
 // スプレッドシートIDと範囲を設定
 const spreadsheetId = process.env.SPREADSHEET_ID;
-const range = 'Sheet1!A1';
+const range = 'シート1!A1';  // カタカナのシート名を使用
 
 // スプレッドシートにデータを書き込む関数
 async function updateSheet() {
@@ -23,7 +23,7 @@ async function updateSheet() {
     const response = await sheets.spreadsheets.values.update({
       auth: oAuth2Client,
       spreadsheetId: spreadsheetId,
-      range: range, // 範囲をエンコード
+      range: range,
       valueInputOption: 'RAW',
       requestBody: {
         values: [['test']],
