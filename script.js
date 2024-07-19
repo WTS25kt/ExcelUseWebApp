@@ -16,12 +16,11 @@ oAuth2Client.setCredentials({
 // スプレッドシートIDを設定
 const spreadsheetId = process.env.SPREADSHEET_ID;
 
-// 現在の日付を取得
+// 現在の日付を取得し、MM/DD形式に変換
 const date_ob = new Date();
 const date = ("0" + date_ob.getDate()).slice(-2);
 const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-const year = date_ob.getFullYear();
-const currentDate = `${year}-${month}-${date}`;
+const currentDate = `${month}/${date}`;
 
 // スプレッドシートからデータを読み込み、現在の日付に一致する行を見つける関数
 async function findAndUpdateRow() {
