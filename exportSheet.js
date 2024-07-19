@@ -14,6 +14,9 @@ oAuth2Client.setCredentials({
   refresh_token: process.env.REFRESH_TOKEN,
 });
 
+// スプレッドシートIDを設定
+const spreadsheetId = process.env.SPREADSHEET_ID;
+
 // アクセストークンを取得する関数
 async function getAccessToken() {
   try {
