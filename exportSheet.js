@@ -40,7 +40,7 @@ async function exportSheet() {
       },
     });
 
-    const filePath = '/Users/shigoto/Downloads/勤怠状況.xlsx';
+    const filePath = '/Users/shigoto/Downloads/リハビリ状況.xlsx';
     fs.writeFileSync(filePath, response.data);
     console.log(`ファイルが保存されました: ${filePath}`);
   } catch (error) {
