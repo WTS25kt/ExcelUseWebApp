@@ -1,54 +1,60 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const { google } = require('googleapis');
-const { OAuth2 } = google.auth;
+const { exec } = require('child_process');
+const path = require('path');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// 認証情報を設定
-const oAuth2Client = new OAuth2(
-  process.env.CLIENT_ID,
-  process.env.CLIENT_SECRET
-);
-
-oAuth2Client.setCredentials({
-  refresh_token: process.env.REFRESH_TOKEN,
-});
-
-// スプレッドシートIDと範囲を設定
-const spreadsheetId = process.env.SPREADSHEET_ID;
-
 // ルートエンドポイント
 app.get('/', (req, res) => {
   res.send(`
     <form action="/update" method="post">
-      <input type="text" name="text" placeholder="Enter text" required>
-      <button type="submit">Update</button>
+      <input type="text" name="startTime" placeholder="Enter start time" required>
+      <input type="text" name="endTime" placeholder="Enter end time" required>
+      <button type="submit">Update Sheet</button>
+    </form>
+    <form action="/export" method="post">
+      <button type="submit">Export Sheet</button>
     </form>
   `);
 });
 
 // スプレッドシートを更新するエンドポイント
-app.post('/update', async (req, res) => {
-  const text = req.body.text;
-  const range = 'シート1!A1';  // カタカナのシート名を使用
-  try {
-    const response = await google.sheets({ version: 'v4', auth: oAuth2Client }).spreadsheets.values.update({
-      spreadsheetId: spreadsheetId,
-      range: range,
-      valueInputOption: 'RAW',
-      requestBody: {
-        values: [[text]],
-      },
-    });
-    res.send(`セルが更新されました: ${text}`);
-  } catch (error) {
-    console.error('エラーが発生しました:', error);
-    res.status(500).send('エラーが発生しました');
-  }
+app.post('/update', (req, res) => {
+  const startTime = req.body.startTime;
+  const endTime = req.body.endTime;
+
+  exec(`node script.js ${startTime} ${endTime}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`エラーが発生しました: ${error.message}`);
+      return res.status(500).send('エラーが発生しました');
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return res.status(500).send('エラーが発生しました');
+    }
+    console.log(`stdout: ${stdout}`);
+    res.send(`スプレッドシートが更新されました: ${stdout}`);
+  });
+});
+
+// スプレッドシートをエクスポートするエンドポイント
+app.post('/export', (req, res) => {
+  exec('node exportSheet.js', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`エラーが発生しました: ${error.message}`);
+      return res.status(500).send('エラーが発生しました');
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return res.status(500).send('エラーが発生しました');
+    }
+    console.log(`stdout: ${stdout}`);
+    res.send(`スプレッドシートがエクスポートされました: ${stdout}`);
+  });
 });
 
 // サーバーを起動
