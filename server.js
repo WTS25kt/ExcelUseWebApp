@@ -12,6 +12,8 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
   res.send(`
     <form action="/update" method="post">
+      <input type="text" name="startTime" placeholder="Enter start time" required>
+      <input type="text" name="endTime" placeholder="Enter end time" required>
       <button type="submit">Update Sheet</button>
     </form>
     <form action="/export" method="post">
@@ -22,7 +24,10 @@ app.get('/', (req, res) => {
 
 // スプレッドシートを更新するエンドポイント
 app.post('/update', (req, res) => {
-  exec('node script.js', (error, stdout, stderr) => {
+  const startTime = req.body.startTime;
+  const endTime = req.body.endTime;
+
+  exec(`node script.js ${startTime} ${endTime}`, (error, stdout, stderr) => {
     if (error) {
       console.error(`エラーが発生しました: ${error.message}`);
       return res.status(500).send('エラーが発生しました');
