@@ -25,6 +25,8 @@ const currentDate = `${month}/${date}`;
 // コマンドライン引数から値を取得
 const startTime = process.argv[2];
 const endTime = process.argv[3];
+const note1 = process.argv[4] || '';
+const note2 = process.argv[5] || '';
 
 // スプレッドシートからデータを読み込み、現在の日付に一致する行を見つける関数
 async function findAndUpdateRow() {
@@ -64,7 +66,7 @@ async function updateSheet(range) {
       range: range,
       valueInputOption: 'RAW',
       requestBody: {
-        values: [[startTime, endTime, '', '']],
+        values: [[startTime, endTime, note1, note2]],
       },
     });
     console.log('セルが更新されました:', response.data);
