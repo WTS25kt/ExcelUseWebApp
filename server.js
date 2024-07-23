@@ -13,7 +13,10 @@ app.get('/', (req, res) => {
     <form action="/update" method="post">
       <input type="text" name="startTime" value="9:00" onfocus="this.value=''" placeholder="Enter start time" required>
       <input type="text" name="endTime" value="18:00" onfocus="this.value=''" placeholder="Enter end time" required>
-      <input type="text" name="note1" value="" onfocus="this.value=''" placeholder="Enter note 1">
+      <select name="note1">
+        <option value="">--選択してください--</option>
+        <option value="有">有</option>
+      </select>
       <input type="text" name="note2" value="" onfocus="this.value=''" placeholder="Enter note 2">
       <button type="submit">Update Sheet</button>
     </form>
