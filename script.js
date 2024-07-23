@@ -13,12 +13,46 @@ oAuth2Client.setCredentials({
   refresh_token: process.env.REFRESH_TOKEN,
 });
 
-// スプレッドシートIDと範囲を設定
+// スプレッドシートIDを設定
 const spreadsheetId = process.env.SPREADSHEET_ID;
-const range = 'リハビリ（7月）!F20:H20';  // カタカナのシート名を使用
+
+// 現在の日付を取得し、MM/DD形式に変換
+const date_ob = new Date();
+const date = ("0" + date_ob.getDate()).slice(-2);
+const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+const currentDate = `${month}/${date}`;
+
+// スプレッドシートからデータを読み込み、現在の日付に一致する行を見つける関数
+async function findAndUpdateRow() {
+  try {
+    const range = 'リハビリ（7月）!A:H';
+    const response = await sheets.spreadsheets.values.get({
+      auth: oAuth2Client,
+      spreadsheetId: spreadsheetId,
+      range: range,
+    });
+
+    const rows = response.data.values;
+    if (rows.length) {
+      for (let i = 0; i < rows.length; i++) {
+        if (rows[i][0] === currentDate) {
+          const rowNumber = i + 1; // シートの行番号は1から始まる
+          const updateRange = `リハビリ（7月）!E${rowNumber}:H${rowNumber}`;
+          await updateSheet(updateRange);
+          return;
+        }
+      }
+      console.log('現在の日付に一致する行が見つかりませんでした。');
+    } else {
+      console.log('スプレッドシートにデータが見つかりませんでした。');
+    }
+  } catch (error) {
+    console.error('エラーが発生しました:', error);
+  }
+}
 
 // スプレッドシートにデータを書き込む関数
-async function updateSheet() {
+async function updateSheet(range) {
   try {
     const response = await sheets.spreadsheets.values.update({
       auth: oAuth2Client,
@@ -26,9 +60,7 @@ async function updateSheet() {
       range: range,
       valueInputOption: 'RAW',
       requestBody: {
-        values: [
-          ['14:30', '', '顔さん外回りのため一緒のタイミングで帰宅']
-        ],
+        values: [['9:00', '18:00', '', '']],
       },
     });
     console.log('セルが更新されました:', response.data);
@@ -38,4 +70,4 @@ async function updateSheet() {
 }
 
 // 関数を実行
-updateSheet();
+findAndUpdateRow();
