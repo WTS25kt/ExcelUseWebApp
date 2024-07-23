@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const { exec } = require('child_process');
-const path = require('path');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,8 +11,8 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
   res.send(`
     <form action="/update" method="post">
-      <input type="text" name="startTime" placeholder="Enter start time" required>
-      <input type="text" name="endTime" placeholder="Enter end time" required>
+      <input type="text" name="startTime" value="9:00" onfocus="this.value=''" placeholder="Enter start time" required>
+      <input type="text" name="endTime" value="18:00" onfocus="this.value=''" placeholder="Enter end time" required>
       <button type="submit">Update Sheet</button>
     </form>
     <form action="/export" method="post">
