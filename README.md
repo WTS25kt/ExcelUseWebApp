@@ -1,5 +1,5 @@
-#bugfix/google-oauth-authentication-fix
-##Google認証がうまくいかなくなったため、GoogleCloudConsoleのOauth2.0クライアントIDを削除し、再作成
+# bugfix/google-oauth-authentication-fix
+## Google認証がうまくいかなくなったため、GoogleCloudConsoleのOauth2.0クライアントIDを削除し、再作成
 
 リダイレクトURIに `https://developers.google.com/oauthplayground` を入力するのは、OAuth 2.0の認証をテストするためには良い方法です。Google OAuth Playgroundを使用することで、OAuthフローをシミュレートし、アプリケーションの動作を確認することができます。以下の手順で行ってください。
 
