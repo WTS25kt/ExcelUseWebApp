@@ -28,6 +28,12 @@ const endTime = process.argv[3];
 const note1 = process.argv[4] || '';
 const note2 = process.argv[5] || '';
 
+console.log('Received values:');
+console.log(`Start Time: ${startTime}`);
+console.log(`End Time: ${endTime}`);
+console.log(`Note 1: ${note1}`);
+console.log(`Note 2: ${note2}`);
+
 // スプレッドシートからデータを読み込み、現在の日付に一致する行を見つける関数
 async function findAndUpdateRow() {
   try {
@@ -60,6 +66,8 @@ async function findAndUpdateRow() {
 // スプレッドシートにデータを書き込む関数
 async function updateSheet(range) {
   try {
+    console.log('Updating sheet with range:', range);
+    console.log('Updating values:', [[startTime, endTime, note1, note2]]);
     const response = await sheets.spreadsheets.values.update({
       auth: oAuth2Client,
       spreadsheetId: spreadsheetId,
