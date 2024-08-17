@@ -22,7 +22,7 @@
    - リダイレクトURIとして `https://developers.google.com/oauthplayground` を入力します。
 
 6. **新しいクライアントIDとシークレットの取得**:
-   - 作成が完了すると、新しいクライアントIDとクライアントシークレットが表示されます。~~これを安全に保管します。~~クライアンドIDとクライアントシークレットを控えます。
+   - 作成が完了すると、新しいクライアントIDとクライアントシークレットが表示されます。~~これを安全に保管します。~~　クライアンドIDとクライアントシークレットを控えます。
 
 ### 手順 2: OAuth Playgroundでのテスト
 
@@ -36,7 +36,7 @@
 3. **認証フローの実行**:
    - 使用するスコープを選択し（例：`https://www.googleapis.com/auth/spreadsheets`）、「Authorize APIs」ボタンをクリックします。
    - Googleアカウントで認証を行い、許可を与えます。
-   - 認証が成功すると、認証コードが表示されるので、「Exchange authorization code for tokens」をクリックして~~アクセストークンを取得します。~~Refresh tokenを控えます。
+   - 認証が成功すると、認証コードが表示されるので、「Exchange authorization code for tokens」をクリックして~~アクセストークンを取得します。~~　Refresh tokenを控えます。
 
 ### 手順 3: アプリケーションの設定を更新
 
